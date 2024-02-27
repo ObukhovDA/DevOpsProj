@@ -1,0 +1,41 @@
+{% macro form(item=None, creating=False) %}
+<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+
+<div class="container">
+    <form method="POST" action="{% if creating %} {{ url_for('items.create') }} {% else %} {{ url_for('items.edit',  item_id=item.id) }} {% endif %}" enctype="multipart/form-data">
+        <div class="container">
+            <div class="w-100 mb-2">
+                <label for="title">Название</label>
+                <input class="form-control" name="title" id="title"  value="{{ item.title or '' }}" required>
+            </div>
+
+            <div class="w-100 mb-2">
+                <label for="description">Описание</label>
+                <textarea id="description" name="description">{{ item.description or '' }}</textarea>
+            </div>
+
+            <div class="w-100 mb-2">
+                <label for="price">Стоимость</label>
+                <input class="form-control" type="number" min="0" name="price" id="price"  value="{{ item.price or '' }}" required>
+            </div>
+
+            {% if creating %}
+            <div class="w-100 mb-2">
+                <label for="image">Фото</label>
+                <input class="form-control" type="file" name="image" id="image" required>
+            </div>
+        {% endif %}
+
+            <div class="mb-3 text-center">
+                <input type="submit" class="btn btn-dark" value="Сохранить">
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+<script>
+    const easyMDE = new EasyMDE({element: document.getElementById('description')});
+</script>
+
+{% endmacro %}

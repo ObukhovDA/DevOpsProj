@@ -1,0 +1,28 @@
+{% macro item_index(item=None) %}
+
+     
+
+  <div class="card" style="width: 18rem;">
+    <img src="{{ item.image.url }}" class="card-img-top"  alt="{{ item.image.id }}">
+    <hr>
+    <div class="card-body">
+      <h4 class="card-title">★{{ "%.1f" | format(item.avg_rating()  or 0)  }}&nbsp;{{ item.title or "" }}</h4>
+      <p class="card-text text-center fw-bold fs-4">{{ item.price }}&nbsp;₽</p>
+
+
+      <a href="{{ url_for('items.info', item_id=item.id) }}" class="btn btn-primary mt-3 w-100">Подробнее</a>
+
+      {% if current_user.is_authenticated %}
+        {% if current_user.is_moder() or current_user.is_admin() %}
+          <a href="{{ url_for('items.edit', item_id=item.id) }}" class="btn btn-secondary mt-3 w-100">Редактировать</a>
+        {% endif %}
+
+        {% if current_user.is_admin() %}
+          <button type="button" class="btn btn-danger mt-3 w-100" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{{ url_for('items.delete', item_id=item.id) }}" data-title="{{ item.title }}"> Удалить </button>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+
+
+{% endmacro %}
