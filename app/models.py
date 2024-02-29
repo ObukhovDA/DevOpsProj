@@ -16,7 +16,6 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(100), nullable=False)
     first_name = db.Column(db.String(100), nullable=False)
     middle_name = db.Column(db.String(100))
-    test = db.Column(db.String(100))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), nullable=False)
 
     def set_password(self, password):
@@ -61,6 +60,11 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role %r>' % self.title
+
+class Test(db.Model):
+    __tablename__ = 'test'
+
+    id = db.Column(db.Integer, primary_key=True)
 
 class Item(db.Model):
     __tablename__ = 'items'
