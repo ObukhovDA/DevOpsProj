@@ -13,7 +13,7 @@ BASE_ADDRESS = 'http://192.168.50.68:8000'
 options = webdriver.ChromeOptions()
 options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
-driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager(driver_version="114.0.5735.90").install()), options=options)
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager(driver_version="122.0.6261.95").install()), options=options)
 # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager(driver_version="2.26").install()))
 
 driver.maximize_window()
