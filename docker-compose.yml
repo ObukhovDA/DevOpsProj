@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   mysql_db:
     container_name: mysql_db
@@ -16,14 +16,20 @@ services:
   hr_app:
     container_name: hr_app
     hostname: hr_app
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.service
+    environment: SECRET_KEY = '1233242'
+      MYSQL_USER=root
+      MYSQL_PASSWORD=devops
+      MYSQL_DATABASE=devops
+      MYSQL_HOST=mysql_db
+
     ports:
       - 8000:8000
     restart: always
     depends_on:
       - mysql_db
-      
+
 volumes:
   mysql_db:
