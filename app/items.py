@@ -6,7 +6,11 @@ from auth import check_rights
 from saver import ImageSaver
 import bleach, os
 
+from prometheus_client import generate_latest
+from prometheus_client import Counter
+
 bp = Blueprint('items', __name__, url_prefix='/items')
+c = Counter('requests_for_info', 'Number of runs of the process_request method', ['method', 'endpoint'])
 
 BOOK_PARAMS = [
     'title', 'description', 'price'
@@ -54,6 +58,10 @@ def create():
 @bp.route('/info/<int:item_id>')
 def info(item_id):
     try:
+        path = str(request.path)
+        verb = request.method
+        label_dict = {"method": verb, "endpoint": path}
+        c.labels(**label_dict).inc()
         item = db.session.query(Item).get(item_id)
         comments = db.session.execute(db.select(Comment).filter(Comment.item_id == item_id)).scalars()
         return render_template('items/info.html', item=item, comments=comments)
