@@ -21,4 +21,5 @@ Werkzeug==2.3.4
 zipp==3.15.0
 Flask-Markdown
 bleach
+prometheus_client
 
