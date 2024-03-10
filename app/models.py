@@ -60,11 +60,7 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role %r>' % self.title
-
-class Test(db.Model):
-    __tablename__ = 'test'
-
-    id = db.Column(db.Integer, primary_key=True)
+        
 
 class Item(db.Model):
     __tablename__ = 'items'
