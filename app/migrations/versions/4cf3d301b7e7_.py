@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 949825631407
+Revision ID: 4cf3d301b7e7
 Revises: 
-Create Date: 2024-02-29 21:14:29.474930
+Create Date: 2024-03-10 19:48:30.707174
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '949825631407'
+revision = '4cf3d301b7e7'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,10 +31,6 @@ def upgrade():
     sa.Column('description', sa.Text(), nullable=False),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_roles'))
     )
-    op.create_table('test',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.PrimaryKeyConstraint('id', name=op.f('pk_test'))
-    )
     op.create_table('items',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=100), nullable=False),
@@ -51,6 +47,7 @@ def upgrade():
     sa.Column('last_name', sa.String(length=100), nullable=False),
     sa.Column('first_name', sa.String(length=100), nullable=False),
     sa.Column('middle_name', sa.String(length=100), nullable=True),
+    sa.Column('test', sa.String(length=100), nullable=True),
     sa.Column('role_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['role_id'], ['roles.id'], name=op.f('fk_users_role_id_roles')),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_users')),
@@ -75,7 +72,6 @@ def downgrade():
     op.drop_table('comments')
     op.drop_table('users')
     op.drop_table('items')
-    op.drop_table('test')
     op.drop_table('roles')
     op.drop_table('images')
     # ### end Alembic commands ###
