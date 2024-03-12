@@ -5,10 +5,18 @@ from flask_migrate import Migrate
 import math
 from flaskext.markdown import Markdown
 
+from prometheus_client import generate_latest
+from prometheus_client import Counter
+from prometheus_client import Summary
+
 app = Flask(__name__)
 Markdown(app)
 
 application = app
+
+INDEX_TIME = Summary('index_request_processing_seconds', 'DESC: INDEX time spent processing request')
+
+c = Counter('requests_for_host', 'Number of runs of the process_request method', ['method', 'endpoint'])
 
 app.config.from_pyfile('config.py')
 
@@ -39,6 +47,7 @@ init_login_manager(app)
 from models import *
 
 @app.route('/')
+@INDEX_TIME.time()
 def index():
     # try:
         ITEMS_PER_PAGE = 4
@@ -47,7 +56,12 @@ def index():
         items = db.session.execute(db.select(Item).limit(ITEMS_PER_PAGE).offset(ITEMS_PER_PAGE * (page - 1))).scalars()
 
         page_count = math.ceil(db.session.query(Item).count() / ITEMS_PER_PAGE) or 1
-                
+
+        path = str(request.path)
+        verb = request.method
+        label_dict = {"method": verb, "endpoint": path}
+        c.labels(**label_dict).inc()
+
         return render_template(
             'index.html',
             items = items,
@@ -68,3 +82,7 @@ def image(image_id):
     img = db.get_or_404(Image, image_id)
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                img.storage_filename)
+
+@app.route('/metrics')
+def metrics():
+    return generate_latest()
