@@ -36,7 +36,7 @@ def check_rights(action):
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
-    try:
+    # try:
         if request.method == 'POST':
             login = request.form.get('login')
             password = request.form.get('password')
@@ -50,9 +50,9 @@ def login():
                     return redirect(next or url_for('index'))
             flash('Введены неверные логин и/или пароль.', 'danger')
         return render_template('auth/login.html')
-    except:
-        flash('Ошибка, попробуйте позже', 'danger')
-        return redirect(url_for('index'))
+    # # except:
+    #     flash('Ошибка, попробуйте позже', 'danger')
+    #     return redirect(url_for('index'))
 
 @bp.route('/logout')
 @login_required

@@ -7,7 +7,7 @@ CREATE TABLE `alembic_version` (
 
 
 INSERT INTO `alembic_version` (`version_num`) VALUES
-('ef2c890c1fc0');
+('26d80f3efcf6');
 
 
 CREATE TABLE `comments` (
@@ -96,7 +96,7 @@ ALTER TABLE `comments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 
 ALTER TABLE `roles`

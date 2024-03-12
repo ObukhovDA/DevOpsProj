@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   mysql_db:
     container_name: mysql_db
@@ -16,7 +16,7 @@ services:
   hr_app:
     container_name: hr_app
     hostname: hr_app
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.service
     ports:
@@ -24,6 +24,6 @@ services:
     restart: always
     depends_on:
       - mysql_db
-      
+
 volumes:
   mysql_db:
